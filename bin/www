@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+var debug = require('debug')('rlinux');
+var app = require('../app');
+var twitter = require("../twitter")
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+var faye = require('faye');
+var bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+
+bayeux.attach(server);
+
+// Passing websocket client to twitter stream client
+twitter(bayeux.getClient())

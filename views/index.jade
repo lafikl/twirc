@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h3= title
+  
+  #tweets
+
+  script#tweet-template(type="text/x-handlebars-template").
+    <div class="tweet">
+      <a href="#">{{tweet.user.screen_name}}</a>: {{tweet.text}}
+    </div>
